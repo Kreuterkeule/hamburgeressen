@@ -7,9 +7,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
-@Data
 @Getter @Setter
-@ToString
+@EqualsAndHashCode(exclude="location,tags")
 public class RestaurantEntity {
 
     @Id
@@ -38,5 +37,15 @@ public class RestaurantEntity {
     }
 
     public RestaurantEntity() {
+    }
+
+    @Override
+    public String toString() {
+        return "RestaurantEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
     }
 }

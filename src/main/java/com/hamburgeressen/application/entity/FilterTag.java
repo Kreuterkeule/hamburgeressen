@@ -1,14 +1,11 @@
 package com.hamburgeressen.application.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
-@Data
-@ToString
 @Getter
 @Setter
 @EqualsAndHashCode(exclude="restaurant")
@@ -17,11 +14,21 @@ public class FilterTag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tag;
+    @ManyToMany(mappedBy = "tags")
+    private List<RestaurantEntity> restaurants;
 
     public FilterTag(String tag) {
         this.tag = tag;
     }
 
     public FilterTag() {
+    }
+
+    @Override
+    public String toString() {
+        return "FilterTag{" +
+                "id=" + id +
+                ", tag='" + tag + '\'' +
+                '}';
     }
 }

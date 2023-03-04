@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @CrossOrigin
@@ -22,10 +23,13 @@ public class SearchController {
 
     private FilterTagRepo filterTagRepo;
 
+    private SearchService searchService;
+
     @Autowired
-    public SearchController(RestaurantRepo restaurantRepo, FilterTagRepo filterTagRepo) {
+    public SearchController(RestaurantRepo restaurantRepo, FilterTagRepo filterTagRepo, SearchService searchService) {
         this.restaurantRepo = restaurantRepo;
         this.filterTagRepo = filterTagRepo;
+        this.searchService = searchService;
     }
 
     @CrossOrigin

@@ -5,10 +5,9 @@ import lombok.*;
 
 @Entity
 @Table(name = "locations")
-@Data
 @Getter
 @Setter
-@ToString
+@EqualsAndHashCode(exclude = "restaurant")
 public class LocationEntity {
 
     @Id
@@ -17,6 +16,8 @@ public class LocationEntity {
     private Long id;
     private Double x;
     private Double y;
+    @OneToOne(mappedBy = "location")
+    private RestaurantEntity restaurant;
 
     public LocationEntity(Double x, Double y) {
         this.x = x;
@@ -24,5 +25,14 @@ public class LocationEntity {
     }
 
     public LocationEntity() {
+    }
+
+    @Override
+    public String toString() {
+        return "LocationEntity{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }
