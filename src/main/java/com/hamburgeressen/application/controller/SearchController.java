@@ -5,6 +5,7 @@ import com.hamburgeressen.application.entity.LocationEntity;
 import com.hamburgeressen.application.entity.RestaurantEntity;
 import com.hamburgeressen.application.repo.FilterTagRepo;
 import com.hamburgeressen.application.repo.RestaurantRepo;
+import com.hamburgeressen.application.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -54,5 +55,25 @@ public class SearchController {
         toCreateRestaurant = restaurantRepo.save(toCreateRestaurant);
 
         return ResponseEntity.ok(toCreateRestaurant);
+    }
+
+    record RequestDto(String query, LocationEntity location, Double distance, List<Long> tagIds) {}
+
+    @CrossOrigin
+    @PostMapping("/search")
+    public ResponseEntity<List<RestaurantEntity>> defaultSearch(@RequestBody RequestDto requestDto) {
+
+        List<FilterTag> tags = new ArrayList<>();
+
+        for (Long id : requestDto.tagIds) {
+            tags.add(filterTagRepo.findById(id).get());
+        }
+
+        return ResponseEntity.ok(searchService.defaultSearch(requestDto.query,
+                requestDto.location.getX(),
+                requestDto.location.getY(),
+                requestDto.distance,
+                tags));
+
     }
 }

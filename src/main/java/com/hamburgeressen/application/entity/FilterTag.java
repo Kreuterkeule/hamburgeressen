@@ -11,6 +11,7 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
+@EqualsAndHashCode(exclude="restaurant")
 public class FilterTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
