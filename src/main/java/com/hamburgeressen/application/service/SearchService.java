@@ -6,6 +6,8 @@ import com.hamburgeressen.application.repo.RestaurantRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +31,13 @@ public class SearchService {
         System.out.println(restaurantsSelected);
 
         for (RestaurantEntity restaurant : restaurants) {
-            Double distanceX = x - restaurant.getLocation().getX();
-            Double distanceY = y - restaurant.getLocation().getY();
-            Double actualDistance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+            Double actualDistance = ((Math.sin(y) * Math.sin(restaurant.getLocation().getY())
+                                    + Math.cos(y) * Math.cos(restaurant.getLocation().getY())
+                                    * Math.cos(restaurant.getLocation().getX()-x))/360D)*40000D/360D*40000D;
+            BigDecimal bdDistance = BigDecimal.valueOf(actualDistance);
+            bdDistance.setScale(10, RoundingMode.HALF_UP);
+            actualDistance = Math.abs(bdDistance.doubleValue());
             System.out.println("Distance calculation");
-            System.out.println("DistanceX: " + distanceX.toString());
-            System.out.println("DistanceY: " + distanceY.toString());
             System.out.println("Actual Distance: " + actualDistance.toString());
             if (actualDistance < distance) {
                 restaurantsSelected.add(restaurant);
