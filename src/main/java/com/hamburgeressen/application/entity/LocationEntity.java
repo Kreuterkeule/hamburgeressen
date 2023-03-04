@@ -16,8 +16,6 @@ public class LocationEntity {
     private Long id;
     private Double x;
     private Double y;
-    @OneToOne(mappedBy = "location")
-    private RestaurantEntity restaurant;
 
     public LocationEntity(Double x, Double y) {
         this.x = x;

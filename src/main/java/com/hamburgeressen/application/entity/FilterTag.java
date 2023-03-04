@@ -14,8 +14,6 @@ public class FilterTag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tag;
-    @ManyToMany(mappedBy = "tags")
-    private List<RestaurantEntity> restaurants;
 
     public FilterTag(String tag) {
         this.tag = tag;
