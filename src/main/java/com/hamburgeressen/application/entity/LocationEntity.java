@@ -14,12 +14,12 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    private Double x;
-    private Double y;
+    private Double lon;
+    private Double lat;
 
-    public LocationEntity(Double x, Double y) {
-        this.x = x;
-        this.y = y;
+    public LocationEntity(Double lon, Double lat) {
+        this.lon = lon;
+        this.lat = lat;
     }
 
     public LocationEntity() {
@@ -29,8 +29,8 @@ public class LocationEntity {
     public String toString() {
         return "LocationEntity{" +
                 "id=" + id +
-                ", x=" + x +
-                ", y=" + y +
+                ", lon=" + lon +
+                ", lat=" + lat +
                 '}';
     }
 }

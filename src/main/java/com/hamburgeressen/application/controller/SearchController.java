@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @CrossOrigin
@@ -46,15 +45,31 @@ public class SearchController {
 
     }
 
+    record CreateRequestDto(String name,
+                            String description,
+                            String imageUrl,
+                            List<Long> tagIds,
+                            LocationEntity location
+                            ) {}
+
     @CrossOrigin
     @PostMapping("/create")
-    public ResponseEntity<RestaurantEntity> createRestaurant(@RequestBody RestaurantEntity restaurant){
-        System.out.println(restaurant);
-
+    public ResponseEntity<RestaurantEntity> createRestaurant(@RequestBody CreateRequestDto requestDto){
 
         RestaurantEntity toCreateRestaurant = new RestaurantEntity();
 
-        toCreateRestaurant = restaurant;
+        toCreateRestaurant.setName(requestDto.name);
+        toCreateRestaurant.setDescription(requestDto.description);
+        toCreateRestaurant.setImageUrl(requestDto.imageUrl);
+        toCreateRestaurant.setLocation(requestDto.location);
+
+        List<FilterTag> tags = new ArrayList<>();
+
+        for (Long id : requestDto.tagIds) {
+            tags.add(filterTagRepo.findById(id).get());
+        }
+
+        toCreateRestaurant.setTags(tags);
 
         toCreateRestaurant = restaurantRepo.save(toCreateRestaurant);
 
@@ -73,9 +88,11 @@ public class SearchController {
             tags.add(filterTagRepo.findById(id).get());
         }
 
+        System.out.println(requestDto.location);
+
         return ResponseEntity.ok(searchService.defaultSearch(requestDto.query,
-                requestDto.location.getX(),
-                requestDto.location.getY(),
+                requestDto.location.getLon(),
+                requestDto.location.getLat(),
                 requestDto.distance,
                 tags));
 

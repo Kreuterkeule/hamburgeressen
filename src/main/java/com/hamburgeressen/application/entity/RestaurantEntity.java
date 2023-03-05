@@ -46,6 +46,8 @@ public class RestaurantEntity {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", tags=" + tags +
+                ", location=" + location +
                 '}';
     }
 }

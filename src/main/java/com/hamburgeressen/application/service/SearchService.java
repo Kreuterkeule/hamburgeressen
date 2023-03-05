@@ -21,7 +21,7 @@ public class SearchService {
         this.restaurantRepo = restaurantRepo;
     }
 
-    public List<RestaurantEntity> defaultSearch(String query, Double x, Double y, Double distance, List<FilterTag> tags) {
+    public List<RestaurantEntity> defaultSearch(String query, Double lon1, Double lat1, Double distance, List<FilterTag> tags) {
 
         List<RestaurantEntity> restaurants = restaurantRepo.searchRestaurantsByDescriptionAndName(query);
         List<RestaurantEntity> restaurantsSelected = new ArrayList<>();
@@ -31,11 +31,39 @@ public class SearchService {
         System.out.println(restaurantsSelected);
 
         for (RestaurantEntity restaurant : restaurants) {
-            Double actualDistance = ((Math.sin(y) * Math.sin(restaurant.getLocation().getY())
-                                    + Math.cos(y) * Math.cos(restaurant.getLocation().getY())
-                                    * Math.cos(restaurant.getLocation().getX()-x))/360D)*40000D/360D*40000D;
+
+            double lon2 = restaurant.getLocation().getLon();
+            double lat2 = restaurant.getLocation().getLat();
+
+            // The math module contains a function
+            // named toRadians which converts from
+            // degrees to radians.
+            lon1 = Math.toRadians(lon1);
+            lon2 = Math.toRadians(lon2);
+            lat1 = Math.toRadians(lat1);
+            lat2 = Math.toRadians(lat2);
+
+            // Haversine formula
+            double dlon = lon2 - lon1;
+            double dlat = lat2 - lat1;
+            double a = Math.pow(Math.sin(dlat / 2), 2)
+                    + Math.cos(lat1) * Math.cos(lat2)
+                    * Math.pow(Math.sin(dlon / 2),2);
+
+            double c = 2 * Math.asin(Math.sqrt(a));
+
+            // Radius of earth in kilometers. Use 3956
+            // for miles
+            double r = 6371;
+
+            // calculate the result
+            Double actualDistance = c * r;
+
+            System.out.println(actualDistance);
+
             BigDecimal bdDistance = BigDecimal.valueOf(actualDistance);
             bdDistance.setScale(10, RoundingMode.HALF_UP);
+            System.out.println(actualDistance);
             actualDistance = Math.abs(bdDistance.doubleValue());
             System.out.println("Distance calculation");
             System.out.println("Actual Distance: " + actualDistance.toString());
