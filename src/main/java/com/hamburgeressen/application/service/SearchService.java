@@ -30,6 +30,7 @@ public class SearchService {
         System.out.println(restaurants);
         System.out.println(restaurantsSelected);
 
+
         for (RestaurantEntity restaurant : restaurants) {
 
             double lon2 = restaurant.getLocation().getLon();

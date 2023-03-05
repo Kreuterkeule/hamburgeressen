@@ -18,6 +18,12 @@ public class RestaurantEntity {
     private String name;
     private String description;
     private String imageUrl;
+    private String street;
+    private String houseNumber;
+    private String postalCode;
+    private String city;
+    private String country;
+    private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "restaurant_filter_tags", joinColumns = @JoinColumn(name = "restaurant_id",referencedColumnName = "id"),

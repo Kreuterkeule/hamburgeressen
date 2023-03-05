@@ -97,4 +97,20 @@ public class SearchController {
                 tags));
 
     }
+
+    @CrossOrigin
+    @PostMapping("/createTag")
+    public ResponseEntity<FilterTag> createRestaurant(@RequestBody FilterTag tag){
+
+        FilterTag toCreateFilterTag;
+
+        toCreateFilterTag = tag;
+
+        System.out.println(tag);
+
+        toCreateFilterTag = filterTagRepo.save(toCreateFilterTag);
+
+        return ResponseEntity.ok(toCreateFilterTag);
+    }
+
 }
