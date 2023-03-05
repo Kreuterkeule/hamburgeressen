@@ -30,7 +30,9 @@ public class SearchService {
         System.out.println(restaurants);
         System.out.println(restaurantsSelected);
 
-
+        lon1 = Math.toRadians(lon1);
+        lat1 = Math.toRadians(lat1);
+        
         for (RestaurantEntity restaurant : restaurants) {
 
             double lon2 = restaurant.getLocation().getLon();
@@ -39,9 +41,8 @@ public class SearchService {
             // The math module contains a function
             // named toRadians which converts from
             // degrees to radians.
-            lon1 = Math.toRadians(lon1);
+
             lon2 = Math.toRadians(lon2);
-            lat1 = Math.toRadians(lat1);
             lat2 = Math.toRadians(lat2);
 
             // Haversine formula
@@ -60,11 +61,11 @@ public class SearchService {
             // calculate the result
             Double actualDistance = c * r;
 
-            System.out.println(actualDistance);
-
             BigDecimal bdDistance = BigDecimal.valueOf(actualDistance);
             bdDistance.setScale(10, RoundingMode.HALF_UP);
             System.out.println(actualDistance);
+            System.out.println(distance);
+            System.out.println(actualDistance < distance);
             actualDistance = Math.abs(bdDistance.doubleValue());
             System.out.println("Distance calculation");
             System.out.println("Actual Distance: " + actualDistance.toString());

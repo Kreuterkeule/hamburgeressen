@@ -34,10 +34,26 @@ public class RestaurantEntity {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private LocationEntity location;
 
-    public RestaurantEntity(String name, String description, String imageUrl, List<FilterTag> tags, LocationEntity location) {
+    public RestaurantEntity(String name,
+                            String description,
+                            String imageUrl,
+                            String street,
+                            String houseNumber,
+                            String postalCode,
+                            String city,
+                            String country,
+                            String phoneNumber,
+                            List<FilterTag> tags,
+                            LocationEntity location) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
         this.tags = tags;
         this.location = location;
     }
@@ -52,6 +68,12 @@ public class RestaurantEntity {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", street='" + street + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", tags=" + tags +
                 ", location=" + location +
                 '}';

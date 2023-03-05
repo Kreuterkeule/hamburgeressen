@@ -85,7 +85,10 @@ public class SearchController {
         List<FilterTag> tags = new ArrayList<>();
 
         for (Long id : requestDto.tagIds) {
-            tags.add(filterTagRepo.findById(id).get());
+            FilterTag tag = filterTagRepo.findById(id).orElse(null);
+            if (tag != null) {
+                tags.add(tag);
+            }
         }
 
         System.out.println(requestDto.location);
