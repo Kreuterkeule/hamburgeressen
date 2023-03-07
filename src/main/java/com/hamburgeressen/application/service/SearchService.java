@@ -23,17 +23,33 @@ public class SearchService {
 
     public List<RestaurantEntity> defaultSearch(String query, Double lon1, Double lat1, Double distance, List<FilterTag> tags) {
 
-        List<RestaurantEntity> restaurants = restaurantRepo.searchRestaurantsByDescriptionAndName(query);
+        List<RestaurantEntity> restaurants = new ArrayList<>();
+        for (String singleWord : query.split(" ")) {
+            for(RestaurantEntity restaurant : restaurantRepo.searchRestaurantsByDescriptionAndName(singleWord)) {
+                if (!restaurants.contains(restaurant)) {
+                    restaurants.add(restaurant);
+                }
+            }
+        }
         List<RestaurantEntity> restaurantsSelected = new ArrayList<>();
 
         System.out.println("Start:");
+        System.out.println(distance);
         System.out.println(restaurants);
         System.out.println(restaurantsSelected);
 
+        System.out.println("Cords search address");
+        System.out.println("lat: " + lat1);
+        System.out.println("lon: " + lon1);
+
         lon1 = Math.toRadians(lon1);
         lat1 = Math.toRadians(lat1);
-        
+
         for (RestaurantEntity restaurant : restaurants) {
+
+            System.out.println("Cords restaurant: " + restaurant.getName());
+            System.out.println("lat: " + restaurant.getLocation().getLat());
+            System.out.println("lon: " + restaurant.getLocation().getLat());
 
             double lon2 = restaurant.getLocation().getLon();
             double lat2 = restaurant.getLocation().getLat();
@@ -70,8 +86,16 @@ public class SearchService {
             System.out.println("Distance calculation");
             System.out.println("Actual Distance: " + actualDistance.toString());
             if (actualDistance < distance) {
-                restaurantsSelected.add(restaurant);
+                if (!restaurantsSelected.contains(restaurant)) {
+                    restaurantsSelected.add(restaurant);
+                }
             }
+            System.out.println(distance.getClass());
+            System.out.println("Before all added to restaurants selected" + restaurantsSelected);
+        }
+
+        if (distance == 0D) {
+            restaurantsSelected.addAll(restaurants);
         }
 
         System.out.println("After Distance calculation:");
@@ -79,9 +103,8 @@ public class SearchService {
         System.out.println(restaurantsSelected);
 
         restaurants.clear();
-        for (RestaurantEntity restaurant : restaurantsSelected) {
-            restaurants.add(restaurant);
-        }
+        restaurants.addAll(restaurantsSelected);
+
         restaurantsSelected.clear();
 
         System.out.println("After Reset");
@@ -111,9 +134,7 @@ public class SearchService {
         }
 
         restaurants.clear();
-        for (RestaurantEntity restaurant : restaurantsSelected) {
-            restaurants.add(restaurant);
-        }
+        restaurants.addAll(restaurantsSelected);
         restaurantsSelected.clear();
 
         return restaurants;

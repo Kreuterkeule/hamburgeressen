@@ -16,6 +16,7 @@ public class RestaurantEntity {
     @Column(name = "id")
     private Long id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String imageUrl;
     private String street;

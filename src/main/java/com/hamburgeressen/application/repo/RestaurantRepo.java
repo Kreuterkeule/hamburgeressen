@@ -11,8 +11,11 @@ import java.util.List;
 
 @Repository
 public interface RestaurantRepo extends JpaRepository<RestaurantEntity, Long> {
-    @Query("select r from RestaurantEntity r where r.name like %:query% " +
-            "or r.description like %:query%")
+    @Query("select r from RestaurantEntity r where LOWER(r.name) like %:query% " +
+            "or LOWER(r.description) like %:query% " +
+            "or LOWER(r.street) like %:query% " +
+            "or LOWER(r.city) like %:query% " +
+            "or LOWER(r.country) like %:query%")
     List<RestaurantEntity> searchRestaurantsByDescriptionAndName(@Param("query") String query);
 
     @Query("select r from RestaurantEntity r where r.name like %:query% " +
