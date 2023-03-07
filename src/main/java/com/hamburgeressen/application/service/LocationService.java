@@ -1,9 +1,8 @@
 package com.hamburgeressen.application.service;
 
 import com.hamburgeressen.application.entity.LocationEntity;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,7 +14,7 @@ import java.net.*;
 @Service
 public class LocationService {
 
-    public LocationEntity getLocationForAddress(String address) throws IOException, JSONException {
+    public LocationEntity getLocationForAddress(String address) throws IOException {
 
         Double lat = 0D;
         Double lon = 0D;
@@ -25,7 +24,7 @@ public class LocationService {
         address =  URLEncoder.encode(address, charset);
 
         String url = "https://eu1.locationiq.com/v1/search";
-        String query = String.format("?key=<key>&q=" + address + "&format=json");
+        String query = String.format("?key=<key>q=" + address + "&format=json");
         URL theUrl = new URL(url + query);
         System.out.println(theUrl);
         HttpURLConnection connection = (HttpURLConnection) theUrl.openConnection();

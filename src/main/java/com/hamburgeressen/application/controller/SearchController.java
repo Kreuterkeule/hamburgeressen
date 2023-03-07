@@ -9,7 +9,6 @@ import com.hamburgeressen.application.service.LocationService;
 import com.hamburgeressen.application.service.SearchService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Controller;
@@ -299,7 +298,7 @@ public class SearchController {
 
     @CrossOrigin
     @GetMapping("getLatLon")
-    public ResponseEntity<LocationEntity> getLongLat(@RequestParam("address") String address) throws JSONException, IOException {
+    public ResponseEntity<LocationEntity> getLongLat(@RequestParam("address") String address) throws IOException {
 
         if (address.equals("")) {
             return ResponseEntity.ok(new LocationEntity(0D,0D));

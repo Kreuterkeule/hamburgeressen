@@ -74,8 +74,6 @@ export default {
   margin-top: 60px;
   min-height: 100vh;
   width: 100%;
-  .header {
-  }
   .table-of-contents {
     ul {
       list-style-type: disc;
@@ -85,10 +83,6 @@ export default {
       }
     }
   }
-}
-
-.register {
-  margin-top: 60px;
 }
 
 main{
